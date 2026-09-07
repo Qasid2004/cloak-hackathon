@@ -30,6 +30,7 @@ import numpy as np
 import torch
 from fastapi import FastAPI, File, HTTPException, Query, UploadFile
 from fastapi.responses import HTMLResponse, Response
+from fastapi.staticfiles import StaticFiles
 from diffusers import AutoencoderKL
 from PIL import Image
 
@@ -42,6 +43,9 @@ app = FastAPI(
     title="Cloak",
     description="Adversarial perturbation that protects photos from AI edits.",
 )
+
+# Serve static assets (team photos, etc.) from /static
+app.mount("/static", StaticFiles(directory="static"), name="static")
 
 # ---------------------------------------------------------------------------
 # Shared state (loaded once, reused by every request)
@@ -374,6 +378,28 @@ _DEMO_HTML = r"""
          color:#04101c; font-weight:600; border-radius:10px; padding:10px 18px;
          text-decoration:none; }
   footer { color:var(--dim); font-size:13px; margin-top:26px; }
+  /* --- Team section --- */
+  .team-section { margin-top:32px; }
+  .team-title { color:var(--dim); font-size:14px; text-transform:uppercase;
+                letter-spacing:1.5px; margin:0 0 16px; text-align:center; }
+  .team-grid { display:flex; gap:22px; justify-content:center; flex-wrap:wrap; }
+  .team-card { background:var(--card); border:1px solid var(--line);
+               border-radius:14px; padding:16px 22px;
+               display:flex; align-items:center; gap:16px;
+               flex:1 1 0; min-width:0; }
+  .team-photo { width:56px; height:56px; border-radius:50%; object-fit:cover;
+                border:2px solid var(--line); flex-shrink:0; }
+  .team-info { min-width:0; }
+  .team-name { color:var(--ink); font-size:15px; font-weight:600; margin:0 0 4px;
+               line-height:1.3; }
+  .team-badge { display:inline-block; font-size:12px; padding:3px 10px;
+                border-radius:20px; font-weight:500; }
+  .team-badge.lead { background:rgba(77,208,140,0.15); color:var(--accent); }
+  .team-badge.member { background:rgba(77,163,255,0.15); color:var(--accent2); }
+  @media (max-width:560px) {
+    .team-grid { flex-direction:column; }
+    .team-card { flex:1 1 auto; }
+  }
 </style>
 </head>
 <body>
@@ -445,6 +471,26 @@ _DEMO_HTML = r"""
   <footer>PhotoGuard-style PGD attack on the Stable Diffusion VAE encoder
     (eps = 8/255, face region only, per-step dither). Runs fully on this
     machine &mdash; your photo never leaves the laptop.</footer>
+
+  <div class="team-section">
+    <p class="team-title">Team</p>
+    <div class="team-grid">
+      <div class="team-card">
+        <img class="team-photo" src="/static/team/qasid.jpg" alt="Khawaja Qasid Rasheed Wyne">
+        <div class="team-info">
+          <p class="team-name">Khawaja Qasid Rasheed Wyne</p>
+          <span class="team-badge lead">Team Lead</span>
+        </div>
+      </div>
+      <div class="team-card">
+        <img class="team-photo" src="/static/team/saim.jpg" alt="Muhammad Saim Ali Khan">
+        <div class="team-info">
+          <p class="team-name">Muhammad Saim Ali Khan</p>
+          <span class="team-badge member">Team Member</span>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 <script>
 const $ = id => document.getElementById(id);
