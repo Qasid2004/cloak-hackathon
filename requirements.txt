@@ -1,0 +1,13 @@
+# Cloak project dependencies
+# Install into a fresh virtual environment with:
+#   CPU-only PyTorch (recommended here, no GPU):
+#     pip install torch --index-url https://download.pytorch.org/whl/cpu
+#   then:
+#     pip install -r requirements.txt
+torch>=2.1
+diffusers>=0.40
+transformers>=5.0
+accelerate>=1.0
+safetensors>=0.8
+pillow>=10.0
+requests>=2.31

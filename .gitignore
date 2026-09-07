@@ -1,0 +1,27 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.pyc
+
+# Virtual environments
+.venv/
+.venv-ov/
+
+# Hugging Face model cache
+~/.cache/huggingface/
+.cache/huggingface/
+
+# IDE / editor
+.aicoding-chat-workspace
+.vscode/
+.idea/
+
+# Test outputs (generated, not source)
+output/
+demo_cloaked.png
+demo_headers.txt
+smoke_cloaked.png
+smoke_headers.txt
+cloak_run.log
+ov_run.log
